@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: specforge-postgres
+    environment:
+      POSTGRES_USER: specforge
+      POSTGRES_PASSWORD: specforge
+      POSTGRES_DB: specforge
+    ports:
+      - "5433:5432"
+    volumes:
+      - specforge-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U specforge -d specforge"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  specforge-pgdata:
